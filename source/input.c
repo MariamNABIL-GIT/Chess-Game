@@ -10,6 +10,7 @@ int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_
     while((c=getchar())!='\n' && c!=EOF){
         if (c==' ') continue ;
         input[input_len++]=toupper(c);
+        if(input_len>=49) break ;
     }
     input[input_len]='\0' ;
     if(input_len<4) {
@@ -28,7 +29,7 @@ int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_
 
     
     if (col_from < 'A' || col_from> 'H' ||col_to< 'A' ||col_to > 'H') {
-        printf("Invalid columnn");
+        printf("Invalid column! Use A-H\n");
         return -1; /* return -1 if invalid input */
     }
     if (row_from < '1' || row_from > '8' || row_to< '1' || row_to> '8') {
