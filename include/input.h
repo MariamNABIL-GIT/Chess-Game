@@ -1,4 +1,4 @@
 #ifndef INPUT_H
 #define INPUT_H
-int read_input(char *col_from, char *row_from,char *col_to ,char *row_to ) ;
+int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_row_to ) ;
 #endif
