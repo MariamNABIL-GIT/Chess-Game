@@ -155,7 +155,6 @@ int check_knight(int row_from,int col_from,int row_to,int col_to){
 }
 
 int check_check(char board[8][8],int k_white,GameState *state) {
-    char k_type=k_white?'k' : 'K' ;
     int k_row ,k_col ;
     find_king(board,k_white,&k_row,&k_col) ;
     for(int i=0 ;i<8 ;i++) {
