@@ -1,7 +1,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <ctype.h>
-# include "input.h"
+#include "../include/input.h"
 int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_row_to ) {
     int input_len=0 ;
     char input[50] ;
