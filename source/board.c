@@ -1,3 +1,4 @@
+#include<stdio.h>
 #include "../include/board.h"
 void initialize_board(char board[8][8]){
     for(int i=0;i<8;i++){
