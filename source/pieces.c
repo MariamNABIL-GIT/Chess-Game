@@ -1,5 +1,6 @@
 #include<stdlib.h>
 #include <ctype.h>
+#include<string.h>
 #include "../include/pieces.h"
 #include "../include/Gamestate.h"
 //function checks rook's move
@@ -154,9 +155,7 @@ int check_knight(int row_from,int col_from,int row_to,int col_to){
     return 0;
 }
 
-int check_check(char board[8][8],int k_white,GameState *state) {
-    int k_row ,k_col ;
-    find_king(board,k_white,&k_row,&k_col) ;
+int check_check(int k_row, int k_col,char board[8][8],int k_white,GameState *state) {
     for(int i=0 ;i<8 ;i++) {
         for(int j=0 ;j<8 ;j++){
             char piece=board[i][j] ;
@@ -188,4 +187,39 @@ void find_king(char board[8][8],int k_white ,int *k_row ,int *k_col){
             }
         }
     }
+}
+
+int check_king(int row_from, int col_from, int row_to, int col_to,char board[8][8], GameState *state ){
+    int row_diff=abs(row_to-row_from);
+    int col_diff=abs(col_to-col_from);
+    int white;
+    if(state->current_player==1)
+    white=1;
+    else
+    white=0;
+    if((row_diff==1&&col_diff==0)||(col_diff==1&&row_diff==0)||(row_diff==1&&col_diff==1))
+        return 1;
+    else if(col_diff==2 &&row_diff==0){
+        if((white && row_from==0 && col_from==4)||(!white && row_from==7 &&col_from==4)){
+            char king_position[3]={col_from+'A',row_from+'1','\0'};
+            char rook_position[3];
+            rook_position[0]=(col_to>col_from)?'H':'A';
+            rook_position[1]=row_from+'1';
+            rook_position[2]='\0';
+            for(int i=0;i<state->move_count;i++){
+                if(strncmp(state->moves[i].input,king_position,2)==0||strncmp(state->moves[i].input,rook_position,2)==0)
+                return 0;
+            }
+            int dir=(col_to-col_from)/2;
+            int index=col_from+dir;
+            while(index>0&&index<7){
+                if(board[row_from][index]!='.'&&board[row_from][index]!='-')
+                return 0;
+                index+=dir;
+            }
+            if(!check_check(row_from,col_from,board,white,state)&&!check_check(row_from,col_from+dir,board,white,state)&&!check_check(row_to,col_to,board,white,state))
+            return Castling;
+        }
+    }
+    return 0;
 }
