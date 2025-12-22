@@ -5,6 +5,9 @@
 typedef struct{
     char input[10];
     char captured;
+    int enpassant;
+    int castling;
+    int promotion;
 }Move;
 
 typedef struct{
@@ -16,5 +19,6 @@ typedef struct{
 void init_game_state(GameState *state);
 void add_move(GameState *state,char* input,char captured) ;
 Move *get_last_move(GameState *state);
+void undo(char board[8][8], GameState *state);
 
 #endif

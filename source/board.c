@@ -34,10 +34,11 @@ void initialize_board(char board[8][8]){
         }
     }
 }
-void display_board(char board[8][8],char captured_from_W[16],int sizeW, char captured_from_B[16], int sizeB ){
+void display_board(char board[8][8],GameState *state){
     printf("The pieces taken out from Black: ");
-    for(int i=0;i<sizeB;i++){
-        printf("%c ",captured_from_B[i]);
+    for(int i=0;i<state->move_count;i+=2){
+      if((state->moves[i].captured>'A')&&(state->moves[i].captured<'Z'))
+        printf("%c ",state->moves[i].captured);
     }
     printf("\n");
     printf("The Board:\n\n");
@@ -64,8 +65,9 @@ void display_board(char board[8][8],char captured_from_W[16],int sizeW, char cap
   }
   printf("\n\n");
   printf("The pieces taken out from white: ");
-  for(int i=0;i<sizeW;i++){
-    printf("%c ",captured_from_W[i]);
+  for(int i=1;i<state->move_count;i+=2){
+    if((state->moves[i].captured>'a')&&(state->moves[i].captured<'z'))
+    printf("%c ",state->moves[i].captured);
   }
   printf("\n");
 }
