@@ -198,10 +198,7 @@ int check_king(int row_from, int col_from, int row_to, int col_to,char board[8][
     else
     white=0;
     if((row_diff==1&&col_diff==0)||(col_diff==1&&row_diff==0)||(row_diff==1&&col_diff==1))
-        {if(!check_check(row_to,col_to,board,white,state))
         return 1;
-        else
-        return 0;}
     else if(col_diff==2 &&row_diff==0){
         if((white && row_from==0 && col_from==4)||(!white && row_from==7 &&col_from==4)){
             char king_position[3]={col_from+'A',row_from+'1','\0'};
