@@ -2,7 +2,8 @@
 # include <string.h>
 # include <ctype.h>
 #include "../include/input.h"
-int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_row_to ) {
+#include "../include/gamestate.h"
+int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_row_to ,GameState *state) {
     int input_len=0 ;
     char input[50] ;
     printf("Enter move : ") ;
@@ -13,7 +14,7 @@ int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_
         if(input_len>=49) break ;
     }
     input[input_len]='\0' ;
-    if(input_len<4) {
+    if(input_len<4 || input_len>5) {
         printf("invalid input \n") ;
         return -1 ; /* return -1 if invalid input */
     }
@@ -21,7 +22,18 @@ int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_
     if(strcmp(input,"UNDO")==0){
         return 0 ; /* return 0 for undo */
     }
-    
+    if(input_len==5){
+         char promo_type=input[4] ;
+         if(promo_type=='B' || promo_type=='Q' || promo_type=='N'){
+            state->moves[state->move_count].promotion=1 ;
+            state->moves[state->move_count].promo_type=promo_type ;
+         }
+         else {
+            printf("Invalid Promotion Piece !\n") ;
+            return -1 ;
+         }
+    }
+
     char col_from=input[0] ;
     char row_from=input[1] ;
     char col_to=input[2] ;

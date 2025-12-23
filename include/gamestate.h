@@ -8,6 +8,7 @@ typedef struct{
     int enpassant;
     int castling;
     int promotion;
+    char promo_type;
 }Move;
 
 typedef struct{
