@@ -6,16 +6,19 @@
 
 int check_move(int row_from, int col_from, int row_to, int col_to,char board[8][8],GameState *state){
     if((row_from==row_to)&&(col_from==col_to)){
-        printf("Invalid move:you have entered the same square");
+        printf("Invalid move:you have entered the same square\n");
+        printf("Enter another move!\n");
         return 0;
     }
     int white=state->current_player==1? 1:0;
     if((white&&(board[row_from][col_from]>'A'&&board[row_from][col_from]<'Z'))||(!white&&(board[row_from][col_from]>'a'&&board[row_from][col_from]<'z'))){
-        printf("Invalid move : not your piece");
+        printf("Invalid move : not your piece\n");
+        printf("Enter another move!\n");
         return 0;
     }
     if((white&&(board[row_to][col_to]>'a'&&board[row_to][col_to]<'z'))||(!white&&(board[row_to][col_to]>'A'&&board[row_to][col_to]<'Z'))){
-        printf("Invalid move: you cannot capture your piece");
+        printf("Invalid move: you cannot capture your piece\n");
+        printf("Enter another move!\n");
         return 0;
     }
     char piece=board[row_from][col_from];
@@ -28,6 +31,10 @@ int check_move(int row_from, int col_from, int row_to, int col_to,char board[8][
         case'Q':case'q':result=check_queen(row_from,col_from,row_to,col_to,board);break;
         case'K':case'k':result=check_king(row_from,col_from,row_to,col_to,board,state);break;
         default:result=0;break;
+    }
+    if(!result){
+        printf("Invalid move\n");
+        printf("Enter another move!\n");
     }
     return result;
 }
@@ -67,6 +74,18 @@ int make_move(int row_from, int col_from, int row_to, int col_to,int move_type,c
         board[row_to][col_to]=board[row_from][col_from];
         board[row_from][col_from]=(row_from+col_from)%2==0?'.':'-';
     }
+    else if(move_type==0){
+        return 0; 
+    }
+    if(state->move_count>=state->size_moves){
+        Move *temp=realloc(state->moves,(state->size_moves+500)*sizeof(Move));
+        if(temp==NULL){
+            printf("End of Game : Out of memory\n");
+            return -1; //returns -1 for realloc failure
+        }    
+        state->moves=temp;
+        state->size_moves+=500;
+    }
     Move *move=&state->moves[state->move_count];
     move->castling=king_castling;
     move->enpassant=En_passant;
@@ -77,10 +96,11 @@ int make_move(int row_from, int col_from, int row_to, int col_to,int move_type,c
     find_king(board,white,&k_row,&k_col);
     if(check_check(k_row,k_col,board,white,state)){
         undo(board,state);
-        printf("Invalid move makes your king under check");
-        return 0;
+        printf("Invalid move makes your king under check\n");
+        printf("Enter another move!\n");
+        return 0;//invalid move
     }
-    return 1;
+    return 1;//valid move
 }
 
 int try_move(int row_from, int col_from ,int row_to ,int col_to ,char board[8][8] ,int k_white ,GameState *state) {
@@ -258,14 +278,20 @@ for(int i=0 ;i<8 ;i++){
 }
 return 0;
 }
-int check_mate(char board[8][8],int k_row,int k_col,int k_white,GameState *state) {
+int check_mate(char board[8][8],GameState *state) {
+    int k_row,k_col;
+    int k_white=state->current_player==1?1:0;
+    find_king(board,k_white,&k_row,&k_col);
     if(!check_check(k_row,k_col,board,k_white,state)) {
         return 0;
     }
     return !is_there_move(k_white,board,k_row,k_col,state) ;
 }
 
-int stale_mate(char board[8][8],int k_row,int k_col,int k_white ,GameState *state){
+int stale_mate(char board[8][8],GameState *state){
+    int k_row,k_col;
+    int k_white=state->current_player==1?1:0;
+    find_king(board,k_white,&k_row,&k_col);
     if(check_check(k_row,k_col,board,k_white,state)) {
         return 0 ;
     }
