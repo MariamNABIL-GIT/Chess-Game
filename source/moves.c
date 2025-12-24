@@ -108,7 +108,7 @@ int try_move(int row_from, int col_from ,int row_to ,int col_to ,char board[8][8
     char capture ;
     if(move_type==EN_PASSANT){
         int direction= k_white ? 1:-1 ;
-        capture=board[row_to][col_from] ;
+        capture=board[row_from][col_to] ;
         board[row_from][col_to]=(row_from+col_to)%2==0?'.':'-';
         board[row_to][col_to]=board[row_from][col_from];
         board[row_from][col_from]=(row_from+col_from)%2==0?'.':'-';
