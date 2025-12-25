@@ -28,6 +28,7 @@ int main(){
        else if(input==1){
         int move_type=check_move(row_from,col_from,row_to,col_to,board,&state);
         int move=make_move(row_from,col_from,row_to,col_to,move_type,board,&state);
+        display_board(board,&state);
         if(move==-1)
         break;
         else if(move==0)
@@ -45,7 +46,6 @@ int main(){
             }
         }
       }
-      display_board(board,&state);
     }
     free(state.moves);
     return 0;

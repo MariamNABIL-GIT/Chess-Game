@@ -52,14 +52,14 @@ int make_move(int row_from, int col_from, int row_to, int col_to,int move_type,c
         board[row_to][col_to]= white ? tolower(promo_type) : promo_type ;
         board[row_from][col_from]=(row_from+col_from)%2==0?'.':'-';
     }
-    if(move_type==EN_PASSANT){
+    else if(move_type==EN_PASSANT){
         En_passant=1;
         capture=board[row_from][col_to];
         board[row_from][col_to]=(row_from+col_to)%2==0?'.':'-';
         board[row_to][col_to]=board[row_from][col_from];
         board[row_from][col_from]=(row_from+col_from)%2==0?'.':'-';
     }
-    if(move_type==Castling){
+    else if(move_type==Castling){
         king_castling=1;
         board[row_to][col_to]=board[row_from][col_from];
         board[row_from][col_from]=(row_from+col_from)%2==0?'.':'-';
@@ -70,7 +70,7 @@ int make_move(int row_from, int col_from, int row_to, int col_to,int move_type,c
         board[row_from][c]=board[row_from][rook_col];
         board[row_from][rook_col]=(row_from+rook_col)%2==0?'.':'-';
     }
-    else if(move_type==1||move_type==2){
+    else if(move_type==1||move_type==2||move_type==3){
         board[row_to][col_to]=board[row_from][col_from];
         board[row_from][col_from]=(row_from+col_from)%2==0?'.':'-';
     }
