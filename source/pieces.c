@@ -90,23 +90,21 @@ int check_queen(int row_from,int col_from, int row_to, int col_to, char board[8]
 }
 
 int check_pawn(char board[8][8],int row_from,int col_from,int row_to,int col_to,GameState* state){
-    int is_white=state->current_player== 1? 1:0 ;
+    char piece=board[row_from][col_from];
+    int is_white=piece=='p'?1:0 ;
     int direction=is_white? 1:-1 ;
     int start_row=is_white? 1:6 ;
     int row_diff=row_to-row_from ;
     int col_diff=col_to-col_from ;
     char target=board[row_to][col_to];
-    int promotion=state->moves[state->move_count].promotion ;
-
-    if(promotion==1){
+    int promotion=0;
         if((is_white && row_from==6 && row_to==7) || (!is_white && row_from==1 && row_to==0)){
-            /*valid promotion*/
+            promotion=state->moves[state->move_count].promotion;
         }
         else {
             state->moves[state->move_count].promotion=0 ;
-            promotion=0 ;
         }
-    }
+    
     
     /* forward one square */
     if(col_diff==0 && row_diff==direction){

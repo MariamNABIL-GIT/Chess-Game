@@ -183,8 +183,10 @@ int king_moves[10][2]={{1,1},{1,0},{0,1},{1,-1},{-1,1},{-1,0},{0,-1},{-1,-1},{0,
 for(int i=0 ;i<10 ;i++){
     int row=k_row+king_moves[i][0];
     int col=k_col+king_moves[i][1] ;
-    if(try_move(k_row,k_col,row,col,board,k_white,state)){
-        return 1;
+    if(row>=0 && row<8 && col>=0 && col<8){
+        if(try_move(k_row,k_col,row,col,board,k_white,state)){
+            return 1;
+        }
     }
 }
 for(int i=0 ;i<8 ;i++){
@@ -198,9 +200,10 @@ for(int i=0 ;i<8 ;i++){
             for(int p=0 ;p<8 ;p++){
                 int row=i+knight_moves[p][0] ;
                 int col=j+knight_moves[p][1] ;
+                if(row>=0 && row<8 && col>=0 && col<8){
                 if(try_move(i,j,row,col,board,k_white,state)){
                     return 1;
-                }
+                }}
             } break ;
             case 'p': 
             int direction=k_white?1:-1;
@@ -208,9 +211,10 @@ for(int i=0 ;i<8 ;i++){
             for(int p=0 ;p<4 ;p++){
                 int row=i+pawn_moves[p][0] ;
                 int col=j+pawn_moves[p][1] ;
+                if(row>=0 && row<8 && col>=0 && col<8){
                 if(try_move(i,j,row,col,board,k_white,state)) {
                     return 1;
-                }
+                }}
             }break ;
             case 'q' :
             case 'b': 
