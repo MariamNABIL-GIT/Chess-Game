@@ -13,7 +13,8 @@ typedef struct{
 
 typedef struct{
     int current_player;
-    Move moves[500];
+    int size_moves;
+    Move *moves;
     int move_count;
 }GameState;
 
@@ -21,5 +22,8 @@ void init_game_state(GameState *state);
 void add_move(GameState *state,char* input,char captured) ;
 Move *get_last_move(GameState *state);
 void undo(char board[8][8], GameState *state);
+int save_game(char board[8][8],GameState*state);
+int load_file(char board[8][8],GameState *state);
+int start_game(char board[8][8],GameState *state);
 
 #endif

@@ -16,11 +16,15 @@ int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_
     input[input_len]='\0' ;
     if(input_len<4 || input_len>5) {
         printf("invalid input \n") ;
+        printf("Enter another move!\n");
         return -1 ; /* return -1 if invalid input */
     }
 
     if(strcmp(input,"UNDO")==0){
         return 0 ; /* return 0 for undo */
+    }
+    if(strcmp(input,"SAVE")==0){
+        return 2 ; /* return 2 for save */
     }
     if(input_len==5){
          char promo_type=input[4] ;
@@ -30,6 +34,7 @@ int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_
          }
          else {
             printf("Invalid Promotion Piece !\n") ;
+            printf("Enter another move!\n");
             return -1 ;
          }
     }
@@ -42,10 +47,12 @@ int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_
     
     if (col_from < 'A' || col_from> 'H' ||col_to< 'A' ||col_to > 'H') {
         printf("Invalid column! Use A-H\n");
+        printf("Enter another move!\n");
         return -1; /* return -1 if invalid input */
     }
     if (row_from < '1' || row_from > '8' || row_to< '1' || row_to> '8') {
         printf("Invalid row! Use 1-8\n");
+        printf("Enter another move!\n");
         return -1; /* return -1 if invalid input */
     }
     *ind_col_from=col_from-'A' ;
