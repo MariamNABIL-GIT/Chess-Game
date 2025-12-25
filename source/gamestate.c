@@ -25,6 +25,10 @@ Move *get_last_move(GameState *state){
 }
 
 void undo(char board[8][8], GameState *state){
+    if(state->move_count==0){
+        printf("First move undone\n");
+        return;
+    }
     int col_from= state->moves[state->move_count-1].input[0]-'A';
     int row_from= state->moves[state->move_count-1].input[1]-'1';
     int col_to= state->moves[state->move_count-1].input[2]-'A';
