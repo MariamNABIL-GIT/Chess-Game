@@ -136,7 +136,6 @@ int check_pawn(char board[8][8],int row_from,int col_from,int row_to,int col_to,
         if(target=='.' || target=='-'){
             Move *last_move=get_last_move(state);
             if(last_move!=NULL){
-                int last_col_from=last_move->input[0]-'A' ;
                 int last_row_from=last_move->input[1]-'1' ;
                 int last_col_to=last_move->input[2]-'A' ;
                 int last_row_to=last_move->input[3]-'1' ;
@@ -173,7 +172,7 @@ int check_check(int k_row, int k_col,char board[8][8],int k_white,GameState *sta
         for(int j=0 ;j<8 ;j++){
             char piece=board[i][j] ;
             if(piece=='.' || piece=='-') continue ;
-            if(k_white&& (piece >='b' && piece<='r') || !k_white && (piece>='B' && piece<='R')) continue ;
+            if((k_white&& (piece >='b' && piece<='r')) || (!k_white && (piece>='B' && piece<='R'))) continue ;
             piece=tolower(piece) ;
             switch(piece) {
                 case 'p' : if(check_pawn(board,i,j,k_row,k_col,state)==CAPTURE_CASE) return 1 ; break ;
