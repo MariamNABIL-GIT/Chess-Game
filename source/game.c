@@ -3,6 +3,7 @@
 #include "../include/input.h"
 #include "../include/moves.h"
 #include<stdio.h>
+#include <stdlib.h>
 int main(){
     char board[8][8];
     GameState state;

@@ -109,7 +109,7 @@ int try_move(int row_from, int col_from ,int row_to ,int col_to ,char board[8][8
     char target=board[row_to][col_to] ;
     /*cannot capture the player own pieces*/
     if(target!='.' && target!='-'){
-        if(k_white&& (target>='b' && target<='r') || !k_white && (target>='B' && target<='R')) {
+        if((k_white&& (target>='b' && target<='r')) || (!k_white && (target>='B' && target<='R'))) {
             return 0;
         }
     }
@@ -127,7 +127,6 @@ int try_move(int row_from, int col_from ,int row_to ,int col_to ,char board[8][8
     if(move_type==0) return 0; /*invalid move */ 
     char capture ;
     if(move_type==EN_PASSANT){
-        int direction= k_white ? 1:-1 ;
         capture=board[row_from][col_to] ;
         board[row_from][col_to]=(row_from+col_to)%2==0?'.':'-';
         board[row_to][col_to]=board[row_from][col_from];
@@ -192,7 +191,7 @@ for(int i=0 ;i<8 ;i++){
     for(int j=0 ;j<8 ;j++){
         char piece=board[i][j] ;
         if(piece=='.' || piece=='-') continue ;
-        if(k_white &&(piece>='B' && piece<='R') || !k_white&&(piece>='b' && piece<='r') || piece=='k' || piece=='K') continue ;
+        if((k_white &&(piece>='B' && piece<='R')) || (!k_white&&(piece>='b' && piece<='r')) || (piece=='k') || (piece=='K')) continue ;
         switch(tolower(piece)){
             case 'n' : 
             int knight_moves[8][2]={{1,2},{2,1},{-1,2},{2,-1},{1,-2},{-2,1},{-1,-2},{-2,-1}} ;
