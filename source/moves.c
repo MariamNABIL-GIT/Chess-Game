@@ -92,10 +92,12 @@ int make_move(int row_from, int col_from, int row_to, int col_to,int move_type,c
     move->promotion=promotion;
     add_move(state,in,capture);
     state->current_player=white?2:1;
+    state->undo_count=0;
     int k_row,k_col;
     find_king(board,white,&k_row,&k_col);
     if(check_check(k_row,k_col,board,white,state)){
         undo(board,state);
+        state->undo_count=0;
         printf("Invalid move makes your king under check\n");
         printf("Enter another move!\n");
         return 0;//invalid move
@@ -287,6 +289,9 @@ int check_mate(char board[8][8],GameState *state) {
     find_king(board,k_white,&k_row,&k_col);
     if(!check_check(k_row,k_col,board,k_white,state)) {
         return 0;
+    }
+    else{
+        printf("Player %d king is under check\n",state->current_player);
     }
     return !is_there_move(k_white,board,k_row,k_col,state) ;
 }
