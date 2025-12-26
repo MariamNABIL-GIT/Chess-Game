@@ -49,13 +49,11 @@ int make_move(int row_from, int col_from, int row_to, int col_to,int move_type,c
     char promo_type=state->moves[state->move_count].promo_type ;
     if(move_type==PROMOTION){
         promotion=1 ;
-        printf("PROMOTION\n") ;
         board[row_to][col_to]= white ? tolower(promo_type) : promo_type ;
         board[row_from][col_from]=(row_from+col_from)%2==0?'.':'-';
     }
     else if(move_type==EN_PASSANT){
         En_passant=1;
-        printf("En Passant\n");
         capture=board[row_from][col_to];
         board[row_from][col_to]=(row_from+col_to)%2==0?'.':'-';
         board[row_to][col_to]=board[row_from][col_from];
@@ -63,7 +61,6 @@ int make_move(int row_from, int col_from, int row_to, int col_to,int move_type,c
     }
     else if(move_type==Castling){
         king_castling=1;
-        printf("Castling\n");
         board[row_to][col_to]=board[row_from][col_from];
         board[row_from][col_from]=(row_from+col_from)%2==0?'.':'-';
     
@@ -73,7 +70,7 @@ int make_move(int row_from, int col_from, int row_to, int col_to,int move_type,c
         board[row_from][c]=board[row_from][rook_col];
         board[row_from][rook_col]=(row_from+rook_col)%2==0?'.':'-';
     }
-    else if(move_type==1||move_type==2||move_type==3){
+    else if(move_type==1||move_type==3){
         board[row_to][col_to]=board[row_from][col_from];
         board[row_from][col_from]=(row_from+col_from)%2==0?'.':'-';
     }
@@ -105,6 +102,12 @@ int make_move(int row_from, int col_from, int row_to, int col_to,int move_type,c
         printf("Enter another move!\n");
         return 0;//invalid move
     }
+    if(move_type==PROMOTION)
+     printf("PROMOTION\n") ;
+     else if(move_type==EN_PASSANT)
+     printf("En Passant\n");
+     else if(move_type==Castling)
+     printf("Castling\n");
     return 1;//valid move
 }
 
