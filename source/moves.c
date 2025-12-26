@@ -220,10 +220,24 @@ for(int i=0 ;i<8 ;i++){
                 int row=i+pawn_moves[p][0] ;
                 int col=j+pawn_moves[p][1] ;
                 if(row>=0 && row<8 && col>=0 && col<8){
+                int needs_promotion=(k_white && row==7) || (!k_white && row==0);
+                if(needs_promotion){
+                    state->moves[state->move_count].promotion=1;
+                    state->moves[state->move_count].promo_type='Q';  // Try queen promotion
+                }
+        
                 if(try_move(i,j,row,col,board,k_white,state)) {
+                    if(needs_promotion){
+                    state->moves[state->move_count].promotion = 0;  // Reset
+                    }
                     return 1;
-                }}
-            }break ;
+                }
+        
+                if(needs_promotion){
+                    state->moves[state->move_count].promotion = 0;  // Reset
+                }
+                }
+            }break;
             case 'q' :
             case 'b': 
             for(int p=1 ,q=1 ;(i+p)<8 && (j+q)<8 ;p++,q++){

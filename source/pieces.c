@@ -1,6 +1,7 @@
 #include<stdlib.h>
 #include <ctype.h>
 #include<string.h>
+#include<stdio.h>
 #include "../include/pieces.h"
 #include "../include/Gamestate.h"
 //function checks rook's move
@@ -109,7 +110,10 @@ int check_pawn(char board[8][8],int row_from,int col_from,int row_to,int col_to,
     /* forward one square */
     if(col_diff==0 && row_diff==direction){
         if(target=='.' || target=='-'){
-            if(promotion==1) return PROMOTION ;
+            if((is_white && row_to==7) || (!is_white && row_to==0)){
+            if(promotion==1) return PROMOTION;
+            else return 0;
+        }
             return NORMAL_MOVE;
         }
     }
@@ -125,7 +129,10 @@ int check_pawn(char board[8][8],int row_from,int col_from,int row_to,int col_to,
     /* diagonal capture */
     if(abs(col_diff)==1 && row_diff==direction){
         if(target!='.' && target!='-'){
-            if(promotion==1) return PROMOTION ;
+            if((is_white && row_to==7) || (!is_white && row_to==0)){
+            if(promotion==1) return PROMOTION;
+            else return 0;
+        }
             return CAPTURE_CASE;
         }
     }
