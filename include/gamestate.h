@@ -16,6 +16,7 @@ typedef struct{
     int size_moves;
     Move *moves;
     int move_count;
+    int undo_count;
 }GameState;
 
 void init_game_state(GameState *state);
@@ -25,5 +26,6 @@ void undo(char board[8][8], GameState *state);
 int save_game(char board[8][8],GameState*state);
 int load_file(char board[8][8],GameState *state);
 int start_game(char board[8][8],GameState *state);
+void redo(char board[8][8], GameState *state);
 
 #endif

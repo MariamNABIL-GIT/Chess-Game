@@ -4,10 +4,6 @@
 #include "../include/input.h"
 #include "../include/gamestate.h"
 int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_row_to ,GameState *state) {
-    state->moves[state->move_count].promotion = 0;
-    state->moves[state->move_count].promo_type = 0;
-    state->moves[state->move_count].enpassant = 0;
-    state->moves[state->move_count].castling = 0;
     int input_len=0 ;
     char input[50] ;
     printf("Enter move : ") ;
@@ -30,6 +26,13 @@ int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_
     if(strcmp(input,"SAVE")==0){
         return 2 ; /* return 2 for save */
     }
+    if(strcmp(input,"REDO")==0){
+        return 3;
+    }
+    state->moves[state->move_count].promotion = 0;
+    state->moves[state->move_count].promo_type = 0;
+    state->moves[state->move_count].enpassant = 0;
+    state->moves[state->move_count].castling = 0;
     if(input_len==5){
          char promo_type=input[4] ;
          if(promo_type=='B' || promo_type=='Q' || promo_type=='N'){

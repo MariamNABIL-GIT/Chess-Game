@@ -11,19 +11,28 @@ int main(){
     if(!start)
     return 0;
     while(1){
+        printf("\n\n");
         printf("player %d turn\n",state.current_player);
         int row_from,col_from,row_to,col_to,input;
        input= read_input(&col_from,&row_from,&col_to,&row_to,&state);
        if(input==-1)
        continue;
-       else if(input==0)
-       undo(board,&state);
+       else if(input==0){
+        undo(board,&state);
+        display_board(board,&state);
+        continue;
+       }
        else if(input==2){
         int save=save_game(board,&state);
         if(!save)
         continue;
         else
         break;
+       }
+       else if(input==3){
+        redo(board,&state);
+        display_board(board,&state);
+        continue;
        }
        else if(input==1){
         int move_type=check_move(row_from,col_from,row_to,col_to,board,&state);
