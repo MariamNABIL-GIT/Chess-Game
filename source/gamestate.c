@@ -129,7 +129,7 @@ int load_file(char board[8][8],GameState *state){
     fread(&state->size_moves,sizeof(int),1,file);
     fread(&state->move_count,sizeof(int),1,file);
     fread(&state->undo_count,sizeof(int),1,file);
-    
+    state->undo_count=0;
     state->moves=malloc(state->size_moves*sizeof(Move));
     if(state->moves==NULL){
         printf("No enough memory\n");
