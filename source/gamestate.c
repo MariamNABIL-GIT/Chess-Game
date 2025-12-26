@@ -5,11 +5,17 @@
 #include<stdlib.h>
 #include<ctype.h>
 
-void init_game_state(GameState* state){
+int init_game_state(GameState* state){
     state->current_player=1;
     state->move_count=0;
     state->undo_count=0;
+    state->size_moves=500;
     state->moves= malloc(500*sizeof(Move));
+    if(state->moves==NULL){
+        printf("NO enough memory\n");
+        return 0;
+    }
+    return 1;
 }
 
 void add_move(GameState *state,char *input,char captured){
@@ -74,7 +80,7 @@ int save_game(char board[8][8],GameState*state){
         }
     }
     file_name[i]='\0';
-    char path[30]="../gameFiles/";
+    char path[40]="/gameFiles/";
     strcat(path,file_name);
     FILE *file=fopen(path,"wb");
     if(file==NULL){
@@ -105,7 +111,7 @@ int load_file(char board[8][8],GameState *state){
         }
     }
     file_name[i]='\0';
-    char path[30]="../gameFiles/";
+    char path[40]="/gameFiles/";
     strcat(path,file_name);
     FILE *file=fopen(path,"rb");
     if(file==NULL){
@@ -118,7 +124,13 @@ int load_file(char board[8][8],GameState *state){
     }
     fread(state,sizeof(GameState),1,file);
     state->undo_count=0;
+    if(state->moves!=NULL)
+    free(state->moves);
     state->moves=malloc(state->size_moves*sizeof(Move));
+    if(state->moves==NULL){
+        printf("No enough memory\n");
+        return 0;
+    }
     fread(state->moves,sizeof(Move),state->move_count,file);
     printf("Loaded successfully\n");
     fclose(file);
@@ -140,9 +152,9 @@ int start_game(char board[8][8],GameState *state){
     start[i]='\0';
     if(strcasecmp(start,"new game")==0){
         initialize_board(board);
-        init_game_state(state);
+        int init= init_game_state(state);
         printf("---------------New Game-----------------\n");
-        return 1;
+        return init;
     }
     else if(strcasecmp(start,"saved game")==0){
         return load_file(board,state);

@@ -19,7 +19,7 @@ typedef struct{
     int undo_count;
 }GameState;
 
-void init_game_state(GameState *state);
+int init_game_state(GameState *state);
 void add_move(GameState *state,char* input,char captured) ;
 Move *get_last_move(GameState *state);
 void undo(char board[8][8], GameState *state);
