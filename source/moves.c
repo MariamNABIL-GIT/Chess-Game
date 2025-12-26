@@ -291,7 +291,8 @@ int check_mate(char board[8][8],GameState *state) {
         return 0;
     }
     else{
-        printf("Player %d king is under check\n",state->current_player);
+        if(k_white) printf(" The White king is under check\n") ;
+        else printf("The Black king is under check\n");
     }
     return !is_there_move(k_white,board,k_row,k_col,state) ;
 }

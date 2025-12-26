@@ -12,7 +12,8 @@ int main(){
     return 0;
     while(1){
         printf("\n\n");
-        printf("player %d turn\n",state.current_player);
+        if(state.current_player==1)printf("White's turn \n") ;
+        else printf("Black's turn \n") ;
         int row_from,col_from,row_to,col_to,input;
        input= read_input(&col_from,&row_from,&col_to,&row_to,&state);
        if(input==-1)
@@ -45,12 +46,13 @@ int main(){
         else{
             int winner=state.current_player==1?2:1;
             if(check_mate(board,&state)){
-                printf("Check mate\n");
-                printf("Player %d wins\n",winner);
+                printf("Check-mate\n");
+                if(winner==1) printf("WHITE WINS!");
+                else printf("BLACK WINS!");
                 break;
             }
             if(stale_mate(board,&state)){
-              printf("Stale mate\n");
+              printf("Stale-mate\n");
               break;  
             }
         }
