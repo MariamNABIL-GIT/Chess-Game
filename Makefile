@@ -4,7 +4,10 @@ TARGET = chess.exe
 
 OBJS = board.o gamestate.o input.o moves.o pieces.o game.o
 
-all: $(TARGET)
+all: gameFiles $(TARGET)
+
+gameFiles:
+	@if not exist gameFiles mkdir gameFiles
 
 $(TARGET): $(OBJS)
 	$(CC) $(OBJS) -o $(TARGET)
@@ -32,9 +35,24 @@ game.o: source/game.c
 	$(CC) $(CFLAGS) -c source/game.c -o game.o
 
 clean:
-	del /Q *.o $(TARGET) 2>nul
+	@if exist *.o del /Q *.o 2>nul
+	@if exist $(TARGET) del /Q $(TARGET) 2>nul
+	@echo Clean complete!
+
+clean-saves:
+	@if exist gameFiles rmdir /s /q gameFiles 2>nul
+	@echo Saved games deleted!
 
 run: $(TARGET)
 	.\$(TARGET)
 
-.PHONY: all clean run
+help:
+	@echo Chess Game Makefile
+	@echo Commands:
+	@echo   make              - Build the game
+	@echo   make run          - Build and run the game
+	@echo   make clean        - Remove compiled files
+	@echo   make clean-saves  - Delete all saved games
+	@echo   make help         - Show this help
+
+.PHONY: all clean clean-saves run help gameFiles

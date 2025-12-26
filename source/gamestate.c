@@ -80,7 +80,7 @@ int save_game(char board[8][8],GameState*state){
         }
     }
     file_name[i]='\0';
-    char path[40]="/gameFiles/";
+    char path[40]="gameFiles/";
     strcat(path,file_name);
     FILE *file=fopen(path,"wb");
     if(file==NULL){
@@ -92,8 +92,11 @@ int save_game(char board[8][8],GameState*state){
     for(int j=0;j<8;j++){
         fwrite(board[j],sizeof(char),8,file);
     }
-    fwrite(state,sizeof(GameState),1,file);
-    fwrite(state->moves,sizeof(Move),state->move_count,file);
+    fwrite(&state->current_player, sizeof(int), 1, file);
+    fwrite(&state->size_moves, sizeof(int), 1, file);
+    fwrite(&state->move_count, sizeof(int), 1, file);
+    fwrite(&state->undo_count, sizeof(int), 1, file);
+    fwrite(state->moves, sizeof(Move), state->move_count, file);
     printf("Saved Successfully\n");
     fclose(file);
     return 1;
@@ -111,24 +114,26 @@ int load_file(char board[8][8],GameState *state){
         }
     }
     file_name[i]='\0';
-    char path[40]="/gameFiles/";
+    char path[40]="gameFiles/";
     strcat(path,file_name);
     FILE *file=fopen(path,"rb");
     if(file==NULL){
         printf("failed to load the game\n");
-        printf("End of program");
+        printf("End of program\n");
         return 0;
     }
     for(int j=0;j<8;j++){
         fread(board[j],sizeof(char),8,file);
     }
-    fread(state,sizeof(GameState),1,file);
-    state->undo_count=0;
-    if(state->moves!=NULL)
-    free(state->moves);
+    fread(&state->current_player,sizeof(int),1,file);
+    fread(&state->size_moves,sizeof(int),1,file);
+    fread(&state->move_count,sizeof(int),1,file);
+    fread(&state->undo_count,sizeof(int),1,file);
+    
     state->moves=malloc(state->size_moves*sizeof(Move));
     if(state->moves==NULL){
         printf("No enough memory\n");
+        fclose(file);
         return 0;
     }
     fread(state->moves,sizeof(Move),state->move_count,file);
@@ -136,7 +141,6 @@ int load_file(char board[8][8],GameState *state){
     fclose(file);
     return 1;
 }
-
 int start_game(char board[8][8],GameState *state){
     char start[15];
     printf("Choose (New game) or (saved game): ");
@@ -157,7 +161,8 @@ int start_game(char board[8][8],GameState *state){
         return init;
     }
     else if(strcasecmp(start,"saved game")==0){
-        return load_file(board,state);
+    state->moves = NULL;
+    return load_file(board,state);
     }
     else{
         printf("Invalid input\n");
