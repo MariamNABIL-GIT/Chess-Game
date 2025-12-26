@@ -34,6 +34,10 @@ int main(){
         display_board(board,&state);
         continue;
        }
+       else if(input==4){
+        printf("Game ended");
+        break;
+       }
        else if(input==1){
         int move_type=check_move(row_from,col_from,row_to,col_to,board,&state);
         int move=make_move(row_from,col_from,row_to,col_to,move_type,board,&state);
