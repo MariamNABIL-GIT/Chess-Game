@@ -35,7 +35,7 @@ int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_
     state->moves[state->move_count].castling = 0;
     if(input_len==5){
          char promo_type=input[4] ;
-         if(promo_type=='B' || promo_type=='Q' || promo_type=='N'){
+         if(promo_type=='B' || promo_type=='Q' || promo_type=='N' || promo_type=='R'){
             state->moves[state->move_count].promotion=1 ;
             state->moves[state->move_count].promo_type=promo_type ;
          }
