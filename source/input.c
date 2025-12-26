@@ -29,6 +29,9 @@ int read_input(int *ind_col_from, int  *ind_row_from,int  *ind_col_to ,int *ind_
     if(strcmp(input,"REDO")==0){
         return 3;
     }
+    if(strcmp(input,"EXIT")==0){
+        return 4;
+    }
     state->moves[state->move_count].promotion = 0;
     state->moves[state->move_count].promo_type = 0;
     state->moves[state->move_count].enpassant = 0;
