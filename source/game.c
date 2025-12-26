@@ -10,6 +10,7 @@ int main(){
     int start=start_game(board,&state);
     if(!start)
     return 0;
+    display_board(board,&state);
     while(1){
         printf("\n\n");
         if(state.current_player==1)printf("White's turn \n") ;
